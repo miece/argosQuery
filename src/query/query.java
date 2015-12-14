@@ -26,6 +26,9 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 		// Constructor of main frame
 		public query()
 		{
+			
+			
+			
 			// Set the frame characteristics
 			setTitle( "Simple ListBox Application" );
 			setSize( 500, 800 );
