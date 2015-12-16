@@ -32,6 +32,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 		        columns.add("Game");
 		        columns.add("Price");
+		        columns.add("Available");
 
 		        List<String> name = (ArrayList<String>) test()[0];
 		        List<String> price = (ArrayList<String>) test()[1];
@@ -47,15 +48,15 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 		        TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
 		        JTable table = new JTable(tableModel);
-		        table.getColumnModel().getColumn(0).setPreferredWidth(1000);
-		        table.getColumnModel().getColumn(0).setPreferredWidth(555);
+		        table.getColumnModel().getColumn(0).setPreferredWidth(350);
+		        //table.getColumnModel().getColumn(1).setPreferredWidth(900);
 		        testJFrame.setLayout(new BorderLayout());
 		        testJFrame.add(new JScrollPane(table), BorderLayout.CENTER);
 
 		        testJFrame.add(table.getTableHeader(), BorderLayout.NORTH);
 
 		        testJFrame.setVisible(true);
-		        testJFrame.setSize(700,800);
+		        testJFrame.setSize(350,800);
 		    }
 		    
 		    
