@@ -13,6 +13,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -45,9 +46,20 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 		        for (int i = 0; i < 80; i++) {
 		            values.add(new String[] {newName[i], newPrice[i]});
 		        }
+		        
+		        
+		        
 
-		        TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
-		        JTable table = new JTable(tableModel);
+		        //TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+		        DefaultTableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray()){
+		            @Override
+		            public boolean isCellEditable(int row, int column) {
+		               //all cells false
+		               return false;
+		            }
+		        };
+		        
+		        final JTable table = new JTable(tableModel);
 		        table.getColumnModel().getColumn(0).setPreferredWidth(350);
 		        //table.getColumnModel().getColumn(1).setPreferredWidth(900);
 		        testJFrame.setLayout(new BorderLayout());
@@ -57,6 +69,22 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 		        testJFrame.setVisible(true);
 		        testJFrame.setSize(350,800);
+		        
+
+		        
+		        table.addMouseListener(new java.awt.event.MouseAdapter() {
+		            @Override
+		            public void mouseClicked(java.awt.event.MouseEvent evt) {
+		                int row = table.rowAtPoint(evt.getPoint());
+		                //int col = table.columnAtPoint(evt.getPoint());
+		                if (row >= 0) {
+		                    System.out.println("Row: " + row );
+
+		                }
+		            }
+		        });
+		        
+		        testJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		    }
 		    
 		    
@@ -99,8 +127,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 				        driver.quit();
 				        return new Object[]{nList, pList};
-				
-			
 			}
 
 		}

@@ -3,12 +3,16 @@ package query;
 	import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -28,6 +32,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import com.google.common.io.Files;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -38,6 +43,21 @@ import com.jaunt.UserAgent;
 		 private static final long serialVersionUID = 1L;
 
 		    public static void main(String[] args) throws NotFound, IOException {
+
+		    	
+		    	List<String> test = getId();
+		    	Path file = Paths.get("C:/Users/kmullins/Desktop/file.txt");
+		    	
+		    	FileWriter writer = new FileWriter("C:/Users/kmullins/Desktop/file.txt"); 
+		    	for(String str: getId()) {
+		    		
+		    	  writer.write(str.replace("/","") + System.getProperty("line.separator"));
+		    	}
+		    	writer.close();
+		    	
+		    	
+		    	
+		    
 		        query testJFrame = new query();
 
 		        List<String> columns = new ArrayList<String>();
@@ -50,10 +70,32 @@ import com.jaunt.UserAgent;
 		        columns.add("Game");
 		        columns.add("Price");
 		        columns.add("Available");
+		        
+       
+		        List<String> oid = (ArrayList<String>) getId();
 
+		        String[] newID = new String[oid.size()];
+		        newID = oid.toArray(newID);
+		        
+		        List<String> name = (ArrayList<String>) test()[0];
+		        List<String> price = (ArrayList<String>) test()[1];
+		        
+		        String[] newName = new String[name.size()];
+		        newName = name.toArray(newName);
+		        String[] newPrice = new String[price.size()];
+		        newPrice = price.toArray(newPrice);
+		        
+		        
+		        for (int i = 0; i < 80; i++) {
+		            da.add(new Object[] {newName[i],newPrice[i],"",newID[i]});
+		        }
+		        
+		        /*
 		        List<String> name = (ArrayList<String>) test()[0];
 		        List<String> price = (ArrayList<String>) test()[1];
 		        List<String> id = (ArrayList<String>) test()[2];
+		        
+		        
 
 		        String[] newName = new String[name.size()];
 		        newName = name.toArray(newName);
@@ -61,19 +103,22 @@ import com.jaunt.UserAgent;
 		        newPrice = price.toArray(newPrice);
 		        String[] newID = new String[id.size()];
 		        newID = id.toArray(newID);
-
+		        
 		        
 		        for (int i = 0; i < 80; i++) {
 		            da.add(new Object[] {newName[i], newPrice[i], parseJSON(newID[i])});
 		            //System.out.println(newName[i] + newPrice[i] + parseJSON(newID[i]));
 		        }
+				*/
+		        
+		        	
 
-
+		        
 
 		        
 		        //TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
-		        Model model = new Model(da, Colunas);
-		        JTable table = new JTable(model);
+		        final Model model = new Model(da, Colunas);
+		        final JTable table = new JTable(model);
 		        table.getColumnModel().getColumn(0).setPreferredWidth(350);
 		        //table.getColumnModel().getColumn(1).setPreferredWidth(900);
 		        testJFrame.setLayout(new BorderLayout());
@@ -84,9 +129,21 @@ import com.jaunt.UserAgent;
 		        testJFrame.setVisible(true);
 		        testJFrame.setSize(350,800);
 		        testJFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		        model.setValueAt("sda", 1, 1);
+		        table.addMouseListener(new java.awt.event.MouseAdapter() {
+		            @Override
+		            public void mouseClicked(java.awt.event.MouseEvent evt) {
+		                int row = table.rowAtPoint(evt.getPoint());
+		                //int col = table.columnAtPoint(evt.getPoint());
+		                if (row >= 0) {
+		                    System.out.println("Id: " + table.getModel().getValueAt(row, 3) );
+		                    model.setValueAtHere("2", row, 3);
+		                    
+		                }
+		            }
+		        });
 		        
-		        
-		        
+
 		    }
 		    
 		    
@@ -126,11 +183,11 @@ import com.jaunt.UserAgent;
 				            //out.append(String.format("%-70s= %s" , name.getText().replace(" PS4 Game.", ""), price.getText()) + "\n");
 				            nList.add(name.getText().replace(" PS4 Game.", "").replace("PS4", "").replace("-", "").replace(".",""));
 				            pList.add(price.getText());
-				            idList.add(id.getText().replace("/", ""));
+				            //idList.add(id.getText().replace("/", ""));
 				        }
 
 				        driver.quit();
-				        return new Object[]{nList, pList,idList};
+				        return new Object[]{nList, pList};
 				
 			
 			}
@@ -168,11 +225,11 @@ import com.jaunt.UserAgent;
 			
 			
 			
-			private static Object[] getItemInfo(String id){
+			private static Boolean getItemInfo(String id){
 				
 				String sURL = "http://glasnost.itcarlow.ie/~softeng4/C00118202/check/Android.php?function=info&storeId=201&productId="+id;
-				String name = "", price = "", stock = "";
-				boolean inStock;
+				String stock = "";
+				boolean inStock = false;
 				
 				try{
 				URL url = new URL(sURL);
@@ -183,18 +240,17 @@ import com.jaunt.UserAgent;
 				JsonParser jp = new JsonParser();
 				JsonElement root = jp.parse(new InputStreamReader((InputStream) req.getContent()));
 				JsonObject rootobj = root.getAsJsonObject();
-				name = rootobj.get("name").getAsString();
-				price = rootobj.get("price").getAsString();
+
 				stock = rootobj.get("stock").getAsString();
 				
 			    if(stock.equals("In stock")){
 			    	inStock = true;
 			    }
 			    else if(stock.equals("Item is out of stock")){
-			    	inStock = false;
+			    	//inStock = false;
 			    }
 			    else{
-			    	inStock = false;
+			    	//inStock = false;
 			    }
 				
 				}
@@ -202,11 +258,11 @@ import com.jaunt.UserAgent;
 					
 				}
 				
-				 return new Object[]{name, price,stock};
+				 return inStock;
 			}
 			
 			
-				public static List getId(){
+				public static List<String> getId(){
 				
 				// turn logging off
 						java.util.logging.Logger.getLogger("com.gargoylesoftware").setLevel(Level.OFF); 

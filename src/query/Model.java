@@ -1,6 +1,7 @@
 package query;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -9,17 +10,17 @@ public class Model extends AbstractTableModel {
     private String [] columns = null;
 
     public Model(ArrayList lin, String[] col){
-        setLinhas(lin);
+        setLines(lin);
         setColunas(col);
     }
     public ArrayList getLinhas(){
         return lines;
 
     }
-    public void setLinhas(ArrayList data){
+    public void setLines(ArrayList data){
         lines = data;
     }
-    public String[] getColunas(){
+    public String[] getColumns(){
         return columns;
     }
     public void setColunas(String [] names){
@@ -44,4 +45,12 @@ public class Model extends AbstractTableModel {
         Object[] linha = (Object[])getLinhas().get(numLin);
         return linha[numCol];
     }
+    
+    public void setValueAtHere(Object val, int r, int c){
+    	lines.set(r, val);
+    	fireTableCellUpdated(r,c);
+    	
+    }
+
+
 }
