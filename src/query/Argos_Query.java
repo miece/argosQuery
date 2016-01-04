@@ -3,6 +3,8 @@ package query;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,12 +36,14 @@ import com.jaunt.NotFound;
 public class Argos_Query extends JFrame {
     public Argos_Query() {
     	
-    	  String[] description = { "Ebullient", "Obtuse", "Recalcitrant",
-    		      "Brilliant", "Somnescent", "Timorous", "Florid", "Putrescent" };
-    	
+    	  String[] stores = {"Kilkenny" , "Waterford","Carlow"};
+    	  
+    	  
+    	  final JComboBox c = new JComboBox(stores);
+    	  c.setVisible(true);
     	 JButton b1 = new JButton();
     	 b1.setSize(400,400);
-    	 b1.setText("Delete");
+    	 b1.setText("Set");
     	 b1.setVisible(true);
     	 
         setBounds(100, 100, 500, 400);
@@ -50,6 +55,14 @@ public class Argos_Query extends JFrame {
     	setLayout(new FlowLayout());
     	setDefaultCloseOperation(EXIT_ON_CLOSE);
     	add(b1);
+    	add(c);
+    	c.addActionListener(new ActionListener() {
+    	      public void actionPerformed(ActionEvent e) {
+    	        System.out.println("index: " + c.getSelectedIndex() + "   "
+    	            + ((JComboBox) e.getSource()).getSelectedItem());
+    	      }
+    	    });
+    	
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -68,6 +81,8 @@ public class Argos_Query extends JFrame {
                 }
             }
         });
+    
+    
     }
     
     
