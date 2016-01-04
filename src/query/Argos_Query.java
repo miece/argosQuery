@@ -1,5 +1,8 @@
 package query;
 
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -10,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -27,12 +32,24 @@ import com.jaunt.NotFound;
 
 public class Argos_Query extends JFrame {
     public Argos_Query() {
+    	
+    	  String[] description = { "Ebullient", "Obtuse", "Recalcitrant",
+    		      "Brilliant", "Somnescent", "Timorous", "Florid", "Putrescent" };
+    	
+    	 JButton b1 = new JButton();
+    	 b1.setSize(400,400);
+    	 b1.setText("Delete");
+    	 b1.setVisible(true);
+    	 
         setBounds(100, 100, 500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final JTable table = new JTable(new ModelData());
         add(new JScrollPane(table));
         setVisible(true);
-        
+    	setSize(500,700);
+    	setLayout(new FlowLayout());
+    	setDefaultCloseOperation(EXIT_ON_CLOSE);
+    	add(b1);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
