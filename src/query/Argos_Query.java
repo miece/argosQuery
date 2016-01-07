@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -33,14 +34,19 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.jaunt.NotFound;
 
+
+
 public class Argos_Query extends JFrame {
+	
+	JProgressBar bar;
+	
     public Argos_Query() {
     	
     	  String[] stores = {"Kilkenny" , "Waterford","Carlow"};
     	  
     	  
-    	  final JComboBox c = new JComboBox(stores);
-    	  c.setVisible(true);
+    	 final JComboBox c = new JComboBox(stores);
+    	 c.setVisible(true);
     	 JButton b1 = new JButton();
     	 b1.setSize(400,400);
     	 b1.setText("Set");
@@ -60,6 +66,15 @@ public class Argos_Query extends JFrame {
     	      public void actionPerformed(ActionEvent e) {
     	        System.out.println("index: " + c.getSelectedIndex() + "   "
     	            + ((JComboBox) e.getSource()).getSelectedItem());
+    	        if(c.getSelectedItem() == "Waterford"){
+    	        	
+    	        }
+    	        else if(c.getSelectedItem() == "Carlow"){
+    	        	
+    	        }
+    	        else if(c.getSelectedItem() == "Kilkenny"){
+    	        	
+    	        }
     	      }
     	    });
     	
@@ -82,8 +97,10 @@ public class Argos_Query extends JFrame {
             }
         });
     
-    
+
     }
+    
+    
     
     
     public static boolean checkInStock(String id) throws NotFound, IOException{
